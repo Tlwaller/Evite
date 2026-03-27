@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Evite/static/css/main.d39764c2.css",
+    "main.js": "/Evite/static/js/main.63168e41.js",
+    "static/js/453.e4cca7d4.chunk.js": "/Evite/static/js/453.e4cca7d4.chunk.js",
+    "static/media/coolBG.png": "/Evite/static/media/coolBG.af25e950fc1acd240910.png",
+    "static/media/theDistance.mp3": "/Evite/static/media/theDistance.425de50db86eebdcfa6a.mp3",
+    "static/media/flames.gif": "/Evite/static/media/flames.a71eb0b77615ae985fa2.gif",
+    "static/media/yert_old.png": "/Evite/static/media/yert_old.26b359fc97e3879393d5.png",
+    "static/media/lil-me.png": "/Evite/static/media/lil-me.a213530c33aadf5502db.png",
+    "static/media/blowup.gif": "/Evite/static/media/blowup.c21b0561833d0e975ddd.gif",
+    "static/media/dithered-image.png": "/Evite/static/media/dithered-image.a05f9014afe1f2b2ee83.png",
+    "static/media/scootin.gif": "/Evite/static/media/scootin.6f53cf13acebf1c59886.gif",
+    "static/media/barrel explode.wav": "/Evite/static/media/barrel explode.37a25d8e78bd8f67e526.wav",
+    "static/media/drivinge.gif": "/Evite/static/media/drivinge.20e254a016e48b599863.gif",
+    "static/media/mail.webp": "/Evite/static/media/mail.6dfa64f1c5133e588fa0.webp",
+    "index.html": "/Evite/index.html",
+    "main.d39764c2.css.map": "/Evite/static/css/main.d39764c2.css.map",
+    "main.63168e41.js.map": "/Evite/static/js/main.63168e41.js.map",
+    "453.e4cca7d4.chunk.js.map": "/Evite/static/js/453.e4cca7d4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d39764c2.css",
+    "static/js/main.63168e41.js"
+  ]
+}
