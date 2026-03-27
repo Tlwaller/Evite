@@ -151,7 +151,6 @@ const RSVPForm = () => {
     })
       .then((res) => {
         if (!res.ok) throw new Error("Save failed");
-        setNameInput("");
         setSelectedDates([]);
         setError("");
         setActiveDate(cleanedDates[0]);
@@ -263,10 +262,21 @@ const RSVPForm = () => {
                 className={`calendar-cell day-cell ${
                   selectedByCurrentUser ? "picked" : ""
                 }`}
+                style={{
+                  background: availablePeople.length
+                    ? `rgba(57, 255, 20, ${availablePeople.length * 0.1 + 0.15})`
+                    : `transparent`,
+                }}
                 onClick={() => toggleDateSelection(dateKey)}
               >
                 <span className="day-number">{date.getDate()}</span>
-                <span className="availability-count">
+                <span
+                  className="availability-count"
+                  style={{
+                    color: availablePeople.length ? "white" : undefined,
+                    textShadow: availablePeople.length ? undefined : "none",
+                  }}
+                >
                   {availablePeople.length} available
                 </span>
                 {availablePeople.length > 0 && (
