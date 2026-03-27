@@ -4,6 +4,7 @@ import RSVPForm from "./components/RSVPForm";
 import Curtain from "./components/Curtain";
 import lilMe from "./assets/lil-me.png";
 import yertOld from "./assets/yert_old.png";
+import barrelExplode from "./assets/barrel explode.wav";
 import { useState } from "react";
 
 const App = () => {
@@ -12,7 +13,10 @@ const App = () => {
   const [driveAcross, setDriveAcross] = useState(false);
 
   const handleCrash = () => {
-    setTimeout(() => setShowBlowUp(true), 9500);
+    setTimeout(() => {
+      new Audio(barrelExplode).play();
+      setShowBlowUp(true);
+    }, 9500);
     setTimeout(() => setShowBlowUp(false), 11000);
     setTimeout(() => setMe(yertOld), 10300);
   };
