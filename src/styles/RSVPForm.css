@@ -14,7 +14,8 @@
   align-items: center;
   width: 80%;
   height: 100%;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.712)),
+  background:
+    linear-gradient(transparent, rgba(0, 0, 0, 0.712)),
     url(../assets/dithered-image.png);
   background-size: cover;
   clip-path: polygon(
@@ -71,8 +72,8 @@ input::placeholder {
   align-items: center;
   padding: 4% 0 2%;
   box-shadow: inset 0px 0px 20px black;
-  background: linear-gradient(green, rgba(0, 0, 0, 0.712)),
-    url(../assets/greenmesh.gif);
+  background:
+    linear-gradient(green, rgba(0, 0, 0, 0.712)), url(../assets/greenmesh.gif);
   clip-path: polygon(
     35% 5%,
     65% 5%,

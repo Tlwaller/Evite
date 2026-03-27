@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/Curtain.css";
-import song1 from "../assets/RainingBlood.mp3";
-import song2 from "../assets/newLevel.mp3";
+import song1 from "../assets/theDistance.mp3";
 import unopenedMail from "../assets/unopened mail.gif";
 import mail from "../assets/mail.webp";
 
-const Curtain = () => {
+const Curtain = (props) => {
   const [song, setSong] = useState(song1);
   const [mailOpened, setMailOpened] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -47,13 +46,14 @@ const Curtain = () => {
   const handleClick = () => {
     setMailOpened(true);
     setIsPlaying(true);
-    audioElementRef.current.currentTime = 48;
+    audioElementRef.current.currentTime = 2;
 
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext ||
-        window.webkitAudioContext)();
+      audioContextRef.current = new (
+        window.AudioContext || window.webkitAudioContext
+      )();
       sourceNodeRef.current = audioContextRef.current.createMediaElementSource(
-        audioElementRef.current
+        audioElementRef.current,
       );
       const gainNode = audioContextRef.current.createGain();
       sourceNodeRef.current.connect(gainNode);
@@ -67,15 +67,15 @@ const Curtain = () => {
     setTimeout(() => {
       if (!isHiding) {
         setIsHiding(true);
+        if (props.handleCurtainLift) {
+          props.handleCurtainLift();
+        }
         setTimeout(() => {
           setIsHidden(true);
         }, 2000);
       }
-    }, 7290);
-  };
-
-  const playNextSong = () => {
-    song === song1 ? setSong(song2) : setSong(song1);
+    }, 5290);
+    props.handleCrash();
   };
 
   return (
@@ -87,7 +87,14 @@ const Curtain = () => {
       <div className="mail-contain" style={{ display: isHiding ? "none" : "" }}>
         <span>U HAVE MAIL.</span>
         <img
-          src={mailOpened ? mail : unopenedMail}
+          style={{ display: !mailOpened ? "block" : "none" }}
+          src={unopenedMail}
+          alt="mail"
+          className="mail"
+        />
+        <img
+          style={{ display: mailOpened ? "block" : "none" }}
+          src={mail}
           alt="mail"
           className="mail"
         />
@@ -98,7 +105,7 @@ const Curtain = () => {
         src={song}
         autoPlay={isPlaying}
         muted={!isPlaying}
-        onEnded={playNextSong}
+        // onEnded={playNextSong}
       />
     </div>
   );

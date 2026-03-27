@@ -35,10 +35,46 @@
   background-position: bottom;
   color: rgb(0, 202, 0);
   box-shadow: inset 0px 0px 20px black;
+  overflow: hidden;
+}
+
+.drivinge {
+  position: absolute;
+  bottom: 0;
+  right: -45%;
+  height: 45%;
+  width: auto;
+  --drive-distance: -400%;
+  --drive-duration: 4.8s;
+  --drive-delay: 0s;
+  transform: scaleX(-1);
+  transform-origin: center;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.drivinge.drive-across {
+  animation: driveAcrossCenter var(--drive-duration) linear var(--drive-delay)
+    forwards;
+}
+
+@keyframes driveAcrossCenter {
+  0% {
+    transform: translateX(0) scaleX(-1);
+  }
+  99% {
+    transform: translateX(var(--drive-distance)) scaleX(-1);
+    opacity: 100%;
+  }
+  100% {
+    transform: translateX(var(--drive-distance)) scaleX(-1);
+    opacity: 0;
+  }
 }
 
 .box--gradient {
-  background: linear-gradient(rgba(0, 0, 0, 0.712), transparent),
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.712), transparent),
     url(../assets/dithered-image.png);
   background-size: cover;
   overflow: hidden;
@@ -58,8 +94,8 @@
 .edge {
   height: 80%;
   width: 25%;
-  background: linear-gradient(green, rgba(0, 0, 0, 0.63)),
-    url("../assets/greenmesh.gif");
+  background:
+    linear-gradient(green, rgba(0, 0, 0, 0.63)), url("../assets/coolBG.png");
 }
 
 .center {
@@ -117,6 +153,11 @@ h3 {
     transform: perspective(100px) rotateY(-30deg);
   }
 
+  .gobeer,
+  .scootin {
+    height: 20px;
+  }
+
   h1 {
     hyphens: auto;
     position: absolute;
@@ -143,6 +184,12 @@ h3 {
 }
 
 @media (max-width: 576px) {
+  .drivinge {
+    --drive-distance: -280%;
+    --drive-duration: 5.8s;
+    --drive-delay: 0.5s;
+  }
+
   .hero {
     height: 8cm;
   }

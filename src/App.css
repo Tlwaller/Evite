@@ -5,7 +5,9 @@ body {
   flex-direction: column;
   height: 100vh;
   background-color: black;
-  background: url(assets/greenmesh.gif);
-  background-size: grid;
+  background:
+    linear-gradient(rgba(0, 46, 0, 0.493), rgba(0, 0, 0, 0.63)),
+    url(assets/coolBG.png);
+  background-size: contain;
   overflow-x: hidden;
 }
