@@ -174,10 +174,9 @@ const RSVPForm = () => {
   return (
     <div className="rsvp-wrapper">
       <section className="rsvp-container schedule-container">
-        <h2 className="schedule-title">Find The Best Date</h2>
+        <h2 className="schedule-title">WHEN R U FREE</h2>
         <p className="schedule-subtitle">
-          Add your name, pick every day that works, and save so everyone can see
-          the overlap.
+          Add your name n pick some days that work for you.
         </p>
 
         <form className="schedule-form" onSubmit={submitAvailability}>
