@@ -5,7 +5,6 @@ import unopenedMail from "../assets/unopened mail.gif";
 import mail from "../assets/mail.webp";
 
 const Curtain = (props) => {
-  const [song, setSong] = useState(song1);
   const [mailOpened, setMailOpened] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isHiding, setIsHiding] = useState(false);
@@ -102,10 +101,9 @@ const Curtain = (props) => {
       </div>
       <audio
         ref={audioElementRef}
-        src={song}
+        src={song1}
         autoPlay={isPlaying}
         muted={!isPlaying}
-        // onEnded={playNextSong}
       />
     </div>
   );
