@@ -1,5 +1,6 @@
 {
-  "name": "tw-25-evite",
+  "homepage": "https://tlwaller.github.io/Evite/",
+  "name": "Evite",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
