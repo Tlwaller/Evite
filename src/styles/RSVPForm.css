@@ -73,7 +73,7 @@
   display: block;
   background: linear-gradient(90deg, #1f37c0 0%, #1084d0 100%);
   color: #ffffff;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-weight: 700;
   font-size: 0.85rem;
   padding: 3px 6px;
@@ -92,7 +92,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   background-color: #c0c0c0;
   padding: 1rem 1.25rem 1.5rem;
   border-top: 2px solid #808080;
@@ -103,7 +103,7 @@
 
 .schedule-title {
   margin: 0;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -157,7 +157,7 @@
   color: #000000;
   padding: 0 0.5rem;
   font-size: 0.95rem;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   clip-path: none;
 }
 
@@ -182,7 +182,7 @@
   border-radius: 0;
   cursor: pointer;
   font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-size: 0.9rem;
   letter-spacing: 0;
   text-transform: none;
@@ -225,7 +225,7 @@
 
 .month-label {
   margin: 0;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-size: clamp(1rem, 2.5vw, 1.4rem);
   font-weight: 700;
   color: #000080;
@@ -248,7 +248,7 @@
 
 .weekday-label {
   text-align: center;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0;
@@ -287,7 +287,7 @@
   color: #000000;
   cursor: pointer;
   text-align: left;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
 }
 
 .day-cell:hover {
@@ -320,7 +320,7 @@
 .day-number {
   font-size: 0.95rem;
   font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   color: #000080;
 }
 
@@ -347,12 +347,12 @@
   background: #ffffff;
   clip-path: none;
   animation: none;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
 }
 
 .date-detail-panel h4 {
   margin: 0 0 0.3rem;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-size: 1.05rem;
   color: #000080;
   text-transform: none;
@@ -378,7 +378,7 @@
   margin: 0;
   color: #ff0000;
   font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-family: "Comic Neue", "Comic Sans MS";
   font-size: 0.95rem;
   text-transform: none;
   letter-spacing: 0;
@@ -559,7 +559,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.1rem;
-  font-family: "Boogaloo", "Comic Sans MS", cursive;
+  font-family: "Boogaloo", "Comic Sans MS";
 }
 
 .schedule-title {
@@ -599,7 +599,7 @@
   color: #39ff14;
   padding: 0 0.8rem;
   font-size: 1rem;
-  font-family: "Boogaloo", "Comic Sans MS", cursive;
+  font-family: "Boogaloo", "Comic Sans MS";
   letter-spacing: 0.05em;
   clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
 }
@@ -723,7 +723,7 @@
   color: #c8ff88;
   cursor: pointer;
   text-align: left;
-  font-family: "Boogaloo", "Comic Sans MS", cursive;
+  font-family: "Boogaloo", "Comic Sans MS";
 }
 
 .day-cell:hover {
@@ -778,7 +778,7 @@
     0 0 12px rgba(57, 255, 20, 0.25),
     inset 0 0 20px rgba(57, 255, 20, 0.05);
   animation: skid-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-  font-family: "Boogaloo", "Comic Sans MS", cursive;
+  font-family: "Boogaloo", "Comic Sans MS";
 }
 
 .date-detail-panel h4 {
