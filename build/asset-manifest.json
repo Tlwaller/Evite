@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Evite/static/css/main.3ffeee2a.css",
-    "main.js": "/Evite/static/js/main.f4c894b0.js",
+    "main.css": "/Evite/static/css/main.74e976fd.css",
+    "main.js": "/Evite/static/js/main.4c59f474.js",
     "static/js/453.e4cca7d4.chunk.js": "/Evite/static/js/453.e4cca7d4.chunk.js",
     "static/media/coolBG.png": "/Evite/static/media/coolBG.af25e950fc1acd240910.png",
     "static/media/theDistance.mp3": "/Evite/static/media/theDistance.425de50db86eebdcfa6a.mp3",
@@ -11,20 +11,22 @@
     "static/media/lil-me.png": "/Evite/static/media/lil-me.0decacfcae000ce00b5e.png",
     "static/media/blowup.gif": "/Evite/static/media/blowup.c21b0561833d0e975ddd.gif",
     "static/media/dithered-image.png": "/Evite/static/media/dithered-image.a05f9014afe1f2b2ee83.png",
-    "static/media/rsvpBtn.gif": "/Evite/static/media/rsvpBtn.4e0d49d294ccbfb2e9f5.gif",
     "static/media/scootin.gif": "/Evite/static/media/scootin.6f53cf13acebf1c59886.gif",
+    "static/media/door-open.mp3": "/Evite/static/media/door-open.a8925d6e72bc8d93496b.mp3",
     "static/media/death.mp3": "/Evite/static/media/death.1dfb3cfe936c6ff1bed3.mp3",
     "static/media/barrel explode.wav": "/Evite/static/media/barrel explode.37a25d8e78bd8f67e526.wav",
-    "static/media/2karts.gif": "/Evite/static/media/2karts.442cf7d0294f7f635d5b.gif",
+    "static/media/get-powerup.mp3": "/Evite/static/media/get-powerup.1f97fdb334e4f300fd9a.mp3",
+    "static/media/switch-on.mp3": "/Evite/static/media/switch-on.c3bf7718da6ff3eb7633.mp3",
+    "static/media/switch-off.mp3": "/Evite/static/media/switch-off.02ce329b1f7d1d8068e0.mp3",
     "static/media/drivinge.gif": "/Evite/static/media/drivinge.20e254a016e48b599863.gif",
     "static/media/mail.webp": "/Evite/static/media/mail.6dfa64f1c5133e588fa0.webp",
     "index.html": "/Evite/index.html",
-    "main.3ffeee2a.css.map": "/Evite/static/css/main.3ffeee2a.css.map",
-    "main.f4c894b0.js.map": "/Evite/static/js/main.f4c894b0.js.map",
+    "main.74e976fd.css.map": "/Evite/static/css/main.74e976fd.css.map",
+    "main.4c59f474.js.map": "/Evite/static/js/main.4c59f474.js.map",
     "453.e4cca7d4.chunk.js.map": "/Evite/static/js/453.e4cca7d4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3ffeee2a.css",
-    "static/js/main.f4c894b0.js"
+    "static/css/main.74e976fd.css",
+    "static/js/main.4c59f474.js"
   ]
 }

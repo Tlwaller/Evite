@@ -11,7 +11,7 @@ const ACTION_REVEAL_DELAY_MS = 220;
 
 const HERO_COPY = [
   "HI! I AM TURNING 27",
-  "I want to go to K1 and race go-karts, it should be about $40-$50 per person.",
+  "I want to go to K1 and race go-karts, it should be about $20-$30 per person, depending on how many races we decide on.",
   "I would then like to go to either Community Brewing or Tanstaafl Pub afterwards.",
   "ARE YOU IN???",
 ];
