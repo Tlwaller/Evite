@@ -25,3 +25,43 @@ body::before {
   z-index: -1;
   transform: translateZ(0);
 }
+
+.App {
+  position: relative;
+}
+
+.app-flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(180, 0, 0, 0.42);
+  opacity: 0;
+  z-index: 9998;
+  animation: app-double-red-flash 0.55s ease-out 1;
+}
+
+@keyframes app-double-red-flash {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  28% {
+    opacity: 0;
+  }
+
+  42% {
+    opacity: 0.92;
+  }
+
+  62% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
