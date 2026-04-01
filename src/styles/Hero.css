@@ -2,23 +2,12 @@
   position: relative;
   z-index: 1;
   width: 100vw;
-  height: 40vw;
+  height: 80vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  background-color: green;
   overflow: hidden;
-  clip-path: polygon(
-    29% 15%,
-    71% 15%,
-    100% 0,
-    100% 100%,
-    71% 85%,
-    29% 85%,
-    0 100%,
-    0 0
-  );
 }
 
 .center-content {
@@ -44,7 +33,7 @@
   right: -45%;
   height: 45%;
   width: auto;
-  --drive-distance: -400%;
+  --drive-distance: -50%;
   --drive-duration: 4.8s;
   --drive-delay: 0s;
   transform: scaleX(-1);
@@ -60,14 +49,25 @@
 
 @keyframes driveAcrossCenter {
   0% {
-    transform: translateX(0) scaleX(-1);
+    transform: translateX(calc(-65vw + 50%)) translateY(calc(-50vh + 100%))
+      scaleX(1) scale(0.25);
+    opacity: 0;
+  }
+  1% {
+    transform: translateX(calc(-65vw + 50%)) translateY(calc(-50vh + 100%))
+      scaleX(1) scale(0.25);
+    opacity: 100%;
+  }
+  35% {
+    transform: translateX(-15vw) translateY(calc(-25vh + 50%)) scaleX(-1)
+      scale(0.25);
   }
   99% {
-    transform: translateX(var(--drive-distance)) scaleX(-1);
+    transform: translateX(var(--drive-distance)) scaleX(-1) scale(1);
     opacity: 100%;
   }
   100% {
-    transform: translateX(var(--drive-distance)) scaleX(-1);
+    transform: translateX(var(--drive-distance)) scaleX(-1) scale(1);
     opacity: 0;
   }
 }
@@ -121,15 +121,19 @@
   z-index: -1;
 }
 
+.blowup {
+  position: absolute;
+  height: 110%;
+  right: 10%;
+  top: -15%;
+}
+
 h2,
 h3 {
   color: yellow;
   font-size: 2.5vw;
 }
 
-.hero {
-  height: 35vw;
-}
 .flex-box {
   position: relative;
   margin-left: -13px;
@@ -185,13 +189,9 @@ h3 {
 
 @media (max-width: 576px) {
   .drivinge {
-    --drive-distance: -280%;
-    --drive-duration: 5.8s;
+    --drive-distance: -50%;
+    --drive-duration: 4s;
     --drive-delay: 0.5s;
-  }
-
-  .hero {
-    height: 8cm;
   }
 
   h1 {

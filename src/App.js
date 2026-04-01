@@ -3,7 +3,7 @@ import Hero from "./components/Hero";
 import RSVPForm from "./components/RSVPForm";
 import Curtain from "./components/Curtain";
 import lilMe from "./assets/lil-me.png";
-import yertOld from "./assets/yert_old.png";
+import yertOld from "./assets/old.png";
 import barrelExplode from "./assets/barrel explode.wav";
 import { useState } from "react";
 

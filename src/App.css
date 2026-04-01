@@ -1,13 +1,27 @@
+html,
 body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   height: 100vh;
+  min-height: 100%;
+}
+
+body {
   background-color: black;
-  background:
-    linear-gradient(rgba(0, 46, 0, 0.493), rgba(0, 0, 0, 0.63)),
-    url(assets/coolBG.png);
-  background-size: contain;
+  min-height: 500px;
   overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url(assets/track.jpg) no-repeat center bottom;
+  background-size: cover;
+  z-index: -1;
+  transform: translateZ(0);
 }
