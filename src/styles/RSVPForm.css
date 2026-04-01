@@ -1,883 +1,388 @@
-@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
-
-@keyframes blink {
-  0%,
-  49% {
-    visibility: visible;
-  }
-  50%,
-  100% {
-    visibility: hidden;
-  }
-}
-
-@keyframes marquee-color {
-  0% {
-    color: #ffff00;
-  }
-  25% {
-    color: #ff00ff;
-  }
-  50% {
-    color: #00ffff;
-  }
-  75% {
-    color: #ff8800;
-  }
-  100% {
-    color: #ffff00;
-  }
-}
-
-.rsvp-wrapper {
-  width: 100vw;
-  min-height: 760px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4rem 0 8rem;
-  background-color: #000080;
-  background-image:
-    radial-gradient(1px 1px at 10% 15%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 30% 40%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 50% 10%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 60%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 85% 25%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 20% 80%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 60% 90%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 75%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 55%, #ffffff 0%, transparent 100%),
-    radial-gradient(1px 1px at 5% 50%, #ffffff 0%, transparent 100%);
-}
-
-.rsvp-container {
-  width: min(1100px, 92%);
-  min-height: 720px;
-  background-color: #c0c0c0;
-  clip-path: none;
-  padding: 4px;
+.rsvp-shell {
+  width: min(980px, 94vw);
+  margin: 2rem auto;
+  padding: 0.6rem;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.06) 8px,
+    rgba(0, 0, 0, 0.08) 8px,
+    rgba(0, 0, 0, 0.08) 16px
+  );
   border-top: 3px solid #ffffff;
   border-left: 3px solid #ffffff;
-  border-right: 3px solid #808080;
-  border-bottom: 3px solid #808080;
-  box-shadow: 2px 2px 0 #000000;
-  color: #000000;
-  animation: none;
-  position: relative;
-  overflow: hidden;
+  border-right: 3px solid #4b4b4b;
+  border-bottom: 3px solid #4b4b4b;
+  background-color: #a6a6a6;
+  box-shadow: 6px 6px 0 #111111;
 }
 
-/* window title bar */
-.rsvp-container::before {
-  content: "[ WHEN R U FREE.EXE ]";
-  display: block;
-  background: linear-gradient(90deg, #1f37c0 0%, #1084d0 100%);
-  color: #ffffff;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 3px 6px;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-  pointer-events: none;
-}
-
-.rsvp-container > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* inner raised panel */
-.schedule-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  font-family: "Comic Neue", "Comic Sans MS";
-  background-color: #c0c0c0;
-  padding: 1rem 1.25rem 1.5rem;
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-}
-
-.schedule-title {
-  margin: 0;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  color: #ffff00;
-  text-shadow:
-    2px 2px #000080,
-    -1px -1px #0000aa;
-  background-color: #000080;
-  padding: 4px 10px;
-  display: inline-block;
-  animation: marquee-color 3s step-start infinite;
-}
-
-/* the blinking star after the title */
-.schedule-title::after {
-  content: " ★";
-  animation: blink 1s step-start infinite;
-}
-
-.schedule-subtitle {
-  margin: 0;
-  font-size: 1rem;
-  color: #000080;
-  font-weight: 700;
-  max-width: 780px;
-  border-left: 4px solid #000080;
-  padding-left: 8px;
-  background: #000080;
-  padding: 4px 8px;
-  border: 2px inset #808080;
-}
-
-.schedule-form {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.name-input {
-  min-width: 200px;
-  flex: 1;
-  height: 2.4rem;
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  border-radius: 0;
-  background: #ffffff;
-  color: #000000;
-  padding: 0 0.5rem;
-  font-size: 0.95rem;
-  font-family: "Comic Neue", "Comic Sans MS";
-  clip-path: none;
-}
-
-.name-input::placeholder {
-  color: #808080;
-  font-style: italic;
-}
-
-.name-input:focus {
-  outline: 1px dotted #000080;
-}
-
-.save-availability-btn,
-.clear-selection-btn,
-.month-nav {
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #808080;
-  border-bottom: 2px solid #808080;
-  background-color: #c0c0c0;
-  color: #000000;
-  border-radius: 0;
-  cursor: pointer;
-  font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-size: 0.9rem;
-  letter-spacing: 0;
-  text-transform: none;
-  padding: 4px 14px;
-  clip-path: none;
-  transition: none;
-}
-
-.save-availability-btn:hover,
-.clear-selection-btn:hover,
-.month-nav:hover {
-  background-color: #d0d0d0;
-  transform: none;
-}
-
-.save-availability-btn:active,
-.clear-selection-btn:active,
-.month-nav:active {
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  transform: none;
-}
-
-.clear-selection-btn {
-  color: #800000;
-  border-color: #ffffff #808080 #808080 #ffffff;
-}
-
-.calendar-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.4rem 0;
-  border-top: 1px solid #808080;
-  border-bottom: 1px solid #ffffff;
-}
-
-.month-label {
-  margin: 0;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  font-weight: 700;
-  color: #000080;
-  letter-spacing: 0;
-  text-transform: none;
-  transform: none;
-  background: #000080;
-  padding: 2px 10px;
-  border: 1px solid #808080;
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 3px;
-  background: #808080;
-  border: 2px inset #808080;
-  padding: 2px;
-}
-
-.weekday-label {
-  text-align: center;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0;
-  font-size: 0.72rem;
-  color: #ffffff;
-  background: #000080;
-  padding: 3px 0;
-}
-
-.calendar-cell {
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #808080;
-  border-bottom: 2px solid #808080;
-  border-radius: 0;
-  min-height: 80px;
-  padding: 4px;
+.rsvp-window {
   background: #c0c0c0;
-  clip-path: none;
-  transition: none;
-}
-
-.calendar-cell.empty {
-  opacity: 0.35;
-  background: #a8a8a8;
-  border-style: solid;
-  clip-path: none;
-}
-
-.day-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 2px;
+  border-top: 3px solid #808080;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  font-family: "Courier New", "Lucida Console", monospace;
   color: #000000;
-  cursor: pointer;
-  text-align: left;
-  font-family: "Comic Neue", "Comic Sans MS";
 }
 
-.day-cell:hover {
-  background: #d8d8ff;
-  border-color: #ffffff #808080 #808080 #ffffff;
-}
-
-.day-cell.picked {
-  background: #000080;
+.rsvp-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.35rem 0.55rem;
+  background: linear-gradient(to right, #000080, #0d46b7 70%, #3674dc);
   color: #ffffff;
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  animation: none;
 }
 
-.day-cell.picked .day-number {
-  color: #ffff00;
+.rsvp-titlebar__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff0000;
+  box-shadow: 0 0 0 1px #ffd500;
 }
 
-.day-cell.picked .availability-count {
-  color: #00ffff;
-}
-
-.day-cell.picked .availability-preview {
-  color: #c0c0c0;
-}
-
-.day-number {
-  font-size: 0.95rem;
-  font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS";
-  color: #000080;
-}
-
-.availability-count {
-  font-size: 0.7rem;
-  color: #800000;
-  font-weight: 700;
-  letter-spacing: 0;
-}
-
-.availability-preview {
-  font-size: 0.65rem;
-  color: #004000;
-  line-height: 1.2;
-}
-
-.date-detail-panel {
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  border-radius: 0;
-  padding: 0.75rem;
-  background: #ffffff;
-  clip-path: none;
-  animation: none;
-  font-family: "Comic Neue", "Comic Sans MS";
-}
-
-.date-detail-panel h4 {
-  margin: 0 0 0.3rem;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-size: 1.05rem;
-  color: #000080;
-  text-transform: none;
-  letter-spacing: 0;
-  border-bottom: 1px solid #000080;
-  padding-bottom: 2px;
-}
-
-.date-detail-panel p {
-  margin: 0 0 0.3rem;
-  color: #000000;
-  font-size: 0.95rem;
-}
-
-.date-detail-panel ul {
+.rsvp-titlebar__text {
   margin: 0;
-  padding-left: 1.2rem;
-  color: #000000;
-  font-size: 0.95rem;
-}
-
-.error-txt {
-  margin: 0;
-  color: #ff0000;
-  font-weight: 700;
-  font-family: "Comic Neue", "Comic Sans MS";
-  font-size: 0.95rem;
-  text-transform: none;
-  letter-spacing: 0;
-  animation: blink 1s step-start infinite;
-  background: #ffff00;
-  padding: 2px 6px;
-  border: 1px solid #ff0000;
-}
-
-@media (max-width: 900px) {
-  .rsvp-wrapper {
-    min-height: auto;
-    padding: 3.5rem 0 6rem;
-  }
-
-  .rsvp-container {
-    width: 97%;
-  }
-
-  .calendar-cell {
-    min-height: 72px;
-  }
-}
-
-@media (max-width: 576px) {
-  .schedule-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .calendar-controls {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .calendar-grid {
-    gap: 2px;
-  }
-
-  .weekday-label {
-    font-size: 0.55rem;
-  }
-
-  .calendar-cell {
-    min-height: 62px;
-    padding: 3px;
-  }
-
-  .day-number {
-    font-size: 0.78rem;
-  }
-
-  .availability-count,
-  .availability-preview {
-    font-size: 0.58rem;
-  }
-}
-
-@keyframes pulse-border {
-  0%,
-  100% {
-    box-shadow:
-      0 0 8px #39ff14,
-      0 0 24px #39ff14,
-      inset 0 0 10px rgba(57, 255, 20, 0.08);
-  }
-  50% {
-    box-shadow:
-      0 0 18px #b4ff00,
-      0 0 48px #b4ff00,
-      inset 0 0 22px rgba(180, 255, 0, 0.18);
-  }
-}
-
-@keyframes skid-in {
-  0% {
-    transform: translateX(-120px) rotate(-6deg) skewX(-8deg);
-    opacity: 0;
-  }
-  70% {
-    transform: translateX(8px) rotate(1.5deg) skewX(2deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(0) rotate(-1deg) skewX(0deg);
-    opacity: 1;
-  }
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: rotate(-1deg);
-  }
-  25% {
-    transform: rotate(2deg) skewX(2deg);
-  }
-  75% {
-    transform: rotate(-2deg) skewX(-2deg);
-  }
-}
-
-@keyframes scanline {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 100vh;
-  }
-}
-
-.rsvp-wrapper {
-  width: 100vw;
-  min-height: 760px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4rem 0 8rem;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 255, 65, 0.03) 3px,
-    rgba(0, 255, 65, 0.03) 4px
-  );
-}
-
-.rsvp-container {
-  width: min(1100px, 92%);
-  min-height: 720px;
-  background:
-    linear-gradient(160deg, rgba(0, 0, 0, 0.93) 0%, rgba(0, 20, 0, 0.97) 100%),
-    url(../assets/dithered-image.png);
-  background-size: cover;
-  clip-path: polygon(
-    0 3%,
-    3% 0,
-    97% 0,
-    100% 3%,
-    100% 97%,
-    97% 100%,
-    3% 100%,
-    0 97%
-  );
-  padding: 2.25rem 2rem 2.75rem;
-  color: #d4ff5e;
-  border: 3px solid #39ff14;
-  animation: pulse-border 2.4s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
-}
-
-/* diagonal racing stripe */
-.rsvp-container::before {
-  content: "";
-  position: absolute;
-  top: -60px;
-  left: -80px;
-  width: 260px;
-  height: 900px;
-  background: repeating-linear-gradient(
-    105deg,
-    transparent,
-    transparent 18px,
-    rgba(57, 255, 20, 0.06) 18px,
-    rgba(57, 255, 20, 0.06) 36px
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-.rsvp-container > * {
-  position: relative;
-  z-index: 1;
-}
-
-.schedule-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.1rem;
-  font-family: "Boogaloo", "Comic Sans MS";
-}
-
-.schedule-title {
-  margin: 0;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  font-size: 0.92rem;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #39ff14;
-  transform: rotate(-1.5deg) skewX(-3deg);
+  font-weight: 700;
+}
+
+.rsvp-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  color: #001f5e;
+  border-top: 2px solid #ffffff;
+  border-bottom: 2px solid #808080;
+  background: #f4e76e;
+  font-size: 0.83rem;
+}
+
+.rsvp-marquee span {
   display: inline-block;
-  animation: neon-flicker 5s infinite;
+  padding: 0.28rem 0;
+  animation: rsvp-marquee-scroll 16s linear infinite;
 }
 
-.schedule-subtitle {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #ffbb00;
-  max-width: 780px;
-  letter-spacing: 0.02em;
-}
-
-.schedule-form {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+.rsvp-karts-header {
+  display: grid;
+  grid-template-columns: minmax(120px, 170px) 1fr;
+  gap: 0.85rem;
   align-items: center;
+  margin: 0.8rem 0.95rem 0;
+  padding: 0.6rem;
+  background:
+    radial-gradient(circle at 15% 35%, #ffef84 0 16%, transparent 17%),
+    linear-gradient(135deg, #00113a 0%, #00307f 58%, #1f67df 100%);
+  border-top: 2px solid #9ac0ff;
+  border-left: 2px solid #9ac0ff;
+  border-right: 2px solid #0b1f46;
+  border-bottom: 2px solid #0b1f46;
 }
 
-.name-input {
-  min-width: 220px;
-  flex: 1;
-  height: 2.9rem;
-  border: 2px solid #39ff14;
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.7);
-  color: #39ff14;
-  padding: 0 0.8rem;
-  font-size: 1rem;
-  font-family: "Boogaloo", "Comic Sans MS";
-  letter-spacing: 0.05em;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+.rsvp-karts-gif {
+  max-height: 78px;
+  image-rendering: pixelated;
+  position: relative;
+  left: 75%;
 }
 
-.name-input::placeholder {
-  color: rgba(57, 255, 20, 0.55);
+.rsvp-karts-copy {
+  color: #ffffff;
+  text-shadow: 1px 1px #000000;
 }
 
-.name-input:focus {
-  outline: none;
-  box-shadow:
-    0 0 18px #39ff14,
-    inset 0 0 12px rgba(57, 255, 20, 0.2);
-}
-
-.save-availability-btn,
-.clear-selection-btn,
-.month-nav {
-  border: 2px solid #39ff14;
-  background: #005500;
-  color: #39ff14;
-  border-radius: 0;
-  cursor: pointer;
-  font-weight: 900;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-size: 0.95rem;
+.rsvp-karts-copy__eyebrow {
+  margin: 0;
+  color: #ffe978;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.65rem 1.1rem;
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  transition:
-    background 0.1s,
-    box-shadow 0.1s,
-    transform 0.1s;
 }
 
-.save-availability-btn:hover,
-.month-nav:hover {
-  background: #00aa00;
-  transform: skewX(-4deg) scale(1.04);
-}
-
-.save-availability-btn:active,
-.month-nav:active {
-  transform: skewX(-4deg) scale(0.97);
-}
-
-.clear-selection-btn {
-  border-color: #ff2200;
-  background: #550000;
-  color: #ff4400;
-}
-
-.clear-selection-btn:hover {
-  background: #aa2200;
-  transform: skewX(-4deg) scale(1.04);
-}
-
-.calendar-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  border-top: 2px solid rgba(57, 255, 20, 0.25);
-  border-bottom: 2px solid rgba(57, 255, 20, 0.25);
-  padding: 0.6rem 0;
-}
-
-.month-label {
-  margin: 0;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-size: clamp(1.2rem, 2.5vw, 1.9rem);
-  color: #ffbb00;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transform: skewX(-2deg);
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.5rem;
-}
-
-.weekday-label {
-  text-align: center;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.72rem;
-  color: #39ff14;
-  padding-bottom: 0.3rem;
-}
-
-.calendar-cell {
-  border: 1px solid rgba(57, 255, 20, 0.3);
-  border-radius: 0;
-  min-height: 96px;
-  padding: 0.5rem;
-  background: rgba(0, 10, 0, 0.55);
-  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
-  transition:
-    background 0.12s,
-    border-color 0.12s;
-}
-
-.calendar-cell.empty {
-  opacity: 0.22;
-  background: transparent;
-  border-style: dashed;
-  clip-path: none;
-}
-
-.day-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.2rem;
-  color: #c8ff88;
-  cursor: pointer;
-  text-align: left;
-  font-family: "Boogaloo", "Comic Sans MS";
-}
-
-.day-cell:hover {
-  background: rgba(57, 255, 20, 0.12);
-  border-color: rgba(57, 255, 20, 0.8);
-}
-
-.day-cell.picked {
-  background: rgba(57, 255, 20, 0.18);
-  border: 2px solid #39ff14;
-  box-shadow:
-    0 0 10px #39ff14,
-    inset 0 0 12px rgba(57, 255, 20, 0.12);
-  animation: shake 0.35s ease-in-out;
-}
-
-.day-cell.picked .day-number {
+.rsvp-karts-copy h3 {
+  margin: 0.14rem 0;
   color: #ffffff;
-  text-shadow:
-    0 0 8px #39ff14,
-    0 0 16px #39ff14;
-}
-
-.day-number {
-  font-size: 1.05rem;
-  font-weight: 900;
-  font-family: "Black Ops One", "Impact", fantasy;
-  color: #d4ff5e;
-}
-
-.availability-count {
-  font-size: 0.77rem;
-  color: #39ff14;
-  text-shadow: 0 0 4px #39ff14;
-  font-weight: 700;
+  font-size: 1.02rem;
   letter-spacing: 0.04em;
 }
 
-.availability-preview {
-  font-size: 0.68rem;
-  color: #a0e060;
-  line-height: 1.25;
+@keyframes rsvp-marquee-scroll {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 
-.date-detail-panel {
-  border: 2px solid rgba(57, 255, 20, 0.6);
-  border-radius: 0;
-  padding: 1rem;
-  background: rgba(0, 10, 0, 0.75);
-  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
-  box-shadow:
-    0 0 12px rgba(57, 255, 20, 0.25),
-    inset 0 0 20px rgba(57, 255, 20, 0.05);
-  animation: skid-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-  font-family: "Boogaloo", "Comic Sans MS";
+.rsvp-form {
+  padding: 0.95rem;
+  background: linear-gradient(180deg, #dfdfdf 0%, #c4c4c4 100%);
 }
 
-.date-detail-panel h4 {
-  margin: 0 0 0.4rem;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-size: 1.25rem;
-  color: #39ff14;
-  text-shadow: 0 0 8px #39ff14;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.rsvp-field {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
-.date-detail-panel p {
-  margin: 0 0 0.4rem;
-  color: #b4ff00;
-  font-size: 1rem;
+.rsvp-input {
+  width: min(420px, 100%);
+  padding: 0.4rem 0.45rem;
+  border-top: 2px solid #666666;
+  border-left: 2px solid #666666;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  background: #ffffff;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 0.9rem;
 }
 
-.date-detail-panel ul {
+.rsvp-returning-tools {
+  margin-top: 0.55rem;
+  padding: 0.45rem;
+  max-width: 520px;
+  background: #ebebeb;
+  border: 1px dashed #666666;
+}
+
+.rsvp-returning-note {
   margin: 0;
-  padding-left: 1.2rem;
-  color: #c8ff88;
-  font-size: 1rem;
+  color: #001f5e;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
-.date-detail-panel li {
-  text-shadow: 0 0 4px rgba(57, 255, 20, 0.4);
+.rsvp-returning-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
 }
 
-.error-txt {
-  margin: 0;
-  color: #ff3300;
-  font-weight: 900;
-  font-family: "Black Ops One", "Impact", fantasy;
-  font-size: 1.05rem;
+.rsvp-small-btn {
+  padding: 0.3rem 0.55rem;
+  color: #000000;
+  background: #d5d5d5;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #7d7d7d;
+  border-bottom: 2px solid #7d7d7d;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rsvp-small-btn:active {
+  border-top: 2px solid #7d7d7d;
+  border-left: 2px solid #7d7d7d;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+.rsvp-small-btn--danger {
+  background: #ffe0e0;
+  color: #7a0000;
+}
+
+.rsvp-instruction {
+  margin: 0.9rem 0 0.45rem;
+  font-size: 0.86rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  text-shadow:
-    0 0 8px #ff2200,
-    0 0 18px #ff4400;
+  letter-spacing: 0.03em;
+  color: #002969;
 }
 
-@media (max-width: 900px) {
-  .rsvp-wrapper {
-    min-height: auto;
-    padding: 3.5rem 0 6rem;
+.rsvp-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 0.4rem;
+  max-width: 700px;
+}
+
+.rsvp-option {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.35rem 0.4rem;
+  font-size: 0.88rem;
+  background: #e8e8e8;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #8b8b8b;
+  border-bottom: 2px solid #8b8b8b;
+}
+
+.rsvp-option input {
+  width: 14px;
+  height: 14px;
+  accent-color: #003ca7;
+}
+
+.rsvp-submit {
+  margin-top: 0.85rem;
+  padding: 0.38rem 0.8rem;
+  color: #ffffff;
+  background: #007838;
+  border-top: 2px solid #8be8a8;
+  border-left: 2px solid #8be8a8;
+  border-right: 2px solid #0f3f20;
+  border-bottom: 2px solid #0f3f20;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rsvp-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.rsvp-submit:active {
+  border-top: 2px solid #0f3f20;
+  border-left: 2px solid #0f3f20;
+  border-right: 2px solid #8be8a8;
+  border-bottom: 2px solid #8be8a8;
+}
+
+.rsvp-success {
+  margin: 0.65rem 0 0;
+  color: #004f23;
+  font-size: 0.82rem;
+  font-weight: 700;
+  animation: rsvp-success-pop 0.2s ease-out;
+}
+
+.rsvp-error {
+  margin: 0.5rem 0 0;
+  color: #7a0000;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.rsvp-divider {
+  display: grid;
+  place-items: center;
+  padding: 0.15rem 0.9rem 0.55rem;
+  background: #d0d0d0;
+}
+
+.rsvp-divider__gif {
+  height: 34px;
+  width: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 2px 0 #333333);
+}
+
+@keyframes rsvp-success-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
   }
 
-  .rsvp-container {
-    width: 97%;
-    clip-path: polygon(
-      0 2%,
-      2% 0,
-      98% 0,
-      100% 2%,
-      100% 98%,
-      98% 100%,
-      2% 100%,
-      0 98%
-    );
-    padding: 1.5rem 1rem 2rem;
-  }
-
-  .calendar-cell {
-    min-height: 88px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 576px) {
-  .schedule-form {
-    flex-direction: column;
-    align-items: stretch;
+.vote-board {
+  padding: 0.9rem;
+  background: #d5d5d5;
+}
+
+.vote-board__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+
+.vote-board__header h3 {
+  margin: 0;
+  color: #000080;
+  font-size: 0.96rem;
+}
+
+.vote-board__header p {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.vote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+
+.vote-card {
+  padding: 0.55rem;
+  background: #efefef;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #888888;
+  border-bottom: 2px solid #888888;
+}
+
+.vote-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+}
+
+.vote-badge {
+  padding: 0.08rem 0.35rem;
+  border: 1px solid #000000;
+  font-size: 0.78rem;
+  background: #ffeb66;
+}
+
+.vote-voters summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: #001f5e;
+}
+
+.vote-voters ul {
+  margin: 0.38rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+}
+
+.vote-voters li {
+  margin: 0.16rem 0;
+}
+
+@media (max-width: 640px) {
+  .rsvp-shell {
+    margin: 0;
   }
 
-  .calendar-controls {
-    flex-wrap: wrap;
-    justify-content: center;
+  .rsvp-karts-header {
+    grid-template-columns: 1fr;
   }
 
-  .calendar-grid {
-    gap: 0.3rem;
+  .rsvp-karts-gif {
+    max-height: 30px;
   }
 
-  .weekday-label {
-    font-size: 0.58rem;
-  }
-
-  .calendar-cell {
-    min-height: 74px;
-    padding: 0.32rem;
-    clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
-  }
-
-  .day-number {
-    font-size: 0.82rem;
-  }
-
-  .availability-count,
-  .availability-preview {
-    font-size: 0.6rem;
+  .rsvp-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

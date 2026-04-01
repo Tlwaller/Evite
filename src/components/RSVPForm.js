@@ -1,318 +1,370 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/RSVPForm.css";
+import scootin from "../assets/scootin.gif";
+import submitted from "../assets/get-powerup.mp3";
+import switchOn from "../assets/switch-on.mp3";
+import switchOff from "../assets/switch-off.mp3";
 
-// Add REACT_APP_FIREBASE_DB_URL to your .env file.
-// e.g. REACT_APP_FIREBASE_DB_URL=https://your-project-default-rtdb.firebaseio.com
 const DB_URL = process.env.REACT_APP_FIREBASE_DB_URL;
-const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const formatDateKey = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+const POLL_DATES = [
+  "FRI 4/10",
+  "SAT 4/11",
+  "FRI 4/17",
+  "SAT 4/18",
+  "FRI 5/1",
+  "SAT 5/2",
+];
 
-  return `${year}-${month}-${day}`;
-};
-
-const monthLabel = (date) =>
-  date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-
-const displayDateLabel = (dateKey) => {
-  const date = new Date(`${dateKey}T00:00:00`);
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
-};
-
-const getMonthDays = (date) => {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const leadingEmpty = firstDay.getDay();
-  const days = [];
-
-  for (let i = 0; i < leadingEmpty; i += 1) {
-    days.push(null);
-  }
-
-  for (let day = 1; day <= lastDay.getDate(); day += 1) {
-    days.push(new Date(year, month, day));
-  }
-
-  return days;
-};
-
-const nameToKey = (name) =>
-  name
+const normalizeName = (value) => value.trim().toLowerCase();
+const nameToKey = (value) =>
+  value
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
 
-const RSVPForm = () => {
-  const [monthCursor, setMonthCursor] = useState(() => {
-    const today = new Date();
-    return new Date(today.getFullYear(), today.getMonth(), 1);
-  });
-  const [nameInput, setNameInput] = useState("");
+const RSVPForm = ({ className = "" }) => {
+  const [name, setName] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
-  const [availabilityByPerson, setAvailabilityByPerson] = useState([]);
-  const [error, setError] = useState("");
-  const [activeDate, setActiveDate] = useState("");
+  const [submissions, setSubmissions] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  const monthDays = useMemo(() => getMonthDays(monthCursor), [monthCursor]);
+  const normalizedName = normalizeName(name);
 
-  const dateToPeople = useMemo(() => {
-    const map = {};
+  const existingSubmission = useMemo(
+    () =>
+      submissions.find(
+        (submission) => normalizeName(submission.name) === normalizedName,
+      ),
+    [normalizedName, submissions],
+  );
 
-    availabilityByPerson.forEach(({ name, dates }) => {
-      dates.forEach((dateKey) => {
-        if (!map[dateKey]) {
-          map[dateKey] = [];
-        }
+  const dateVotes = useMemo(() => {
+    const baseVotes = POLL_DATES.reduce((acc, date) => {
+      acc[date] = [];
+      return acc;
+    }, {});
 
-        if (
-          !map[dateKey].some(
-            (item) => item.toLowerCase() === name.toLowerCase(),
-          )
-        ) {
-          map[dateKey].push(name);
-        }
+    submissions.forEach((submission) => {
+      submission.dates.forEach((date) => {
+        baseVotes[date].push(submission.name);
       });
     });
 
-    return map;
-  }, [availabilityByPerson]);
+    return baseVotes;
+  }, [submissions]);
 
-  const activeDatePeople = activeDate ? dateToPeople[activeDate] || [] : [];
+  const totalVotes = useMemo(
+    () =>
+      Object.values(dateVotes).reduce((sum, voters) => sum + voters.length, 0),
+    [dateVotes],
+  );
 
-  const getAvailability = () => {
+  const handleDateToggle = (date, isChecked) => {
+    const toggleAudio = new Audio(isChecked ? switchOn : switchOff);
+
+    toggleAudio.play().catch(() => {
+      // Ignore playback failures due to browser autoplay policy.
+    });
+
+    setSelectedDates((current) => {
+      if (isChecked) {
+        return current.includes(date) ? current : [...current, date];
+      }
+
+      return current.filter((selectedDate) => selectedDate !== date);
+    });
+  };
+
+  const handleTallyToggle = (event) => {
+    const tallyAudio = new Audio(
+      event.currentTarget.open ? switchOn : switchOff,
+    );
+
+    tallyAudio.play().catch(() => {
+      // Ignore playback failures due to browser autoplay policy.
+    });
+  };
+
+  const showStatus = (message) => {
+    setStatusMessage(message);
+    setErrorMessage("");
+    setShowSuccess(true);
+    window.setTimeout(() => setShowSuccess(false), 1700);
+  };
+
+  const loadAvailability = () => {
+    if (!DB_URL) {
+      setErrorMessage("Missing REACT_APP_FIREBASE_DB_URL in .env.");
+      return;
+    }
+
     fetch(`${DB_URL}/availability.json`)
-      .then((res) => res.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Load failed");
+        }
+
+        return response.json();
+      })
       .then((data) => {
         if (!data) {
-          setAvailabilityByPerson([]);
+          setSubmissions([]);
           return;
         }
+
         const people = Object.values(data)
           .filter((entry) => entry?.name && Array.isArray(entry?.dates))
           .map((entry) => ({
             name: String(entry.name),
-            dates: entry.dates.filter((d) => typeof d === "string"),
+            dates: entry.dates.filter((date) =>
+              POLL_DATES.includes(String(date)),
+            ),
           }));
-        setAvailabilityByPerson(people);
+
+        setSubmissions(people);
       })
       .catch((requestError) => {
         console.error(requestError);
-        setError("Could not load availability right now.");
+        setErrorMessage("Could not load RSVP data right now.");
       });
   };
 
   useEffect(() => {
-    getAvailability();
+    loadAvailability();
   }, []);
 
-  const toggleDateSelection = (dateKey) => {
-    setError("");
-    setSelectedDates((currentDates) =>
-      currentDates.includes(dateKey)
-        ? currentDates.filter((value) => value !== dateKey)
-        : [...currentDates, dateKey],
-    );
-    setActiveDate(dateKey);
+  const handleLoadPrevious = () => {
+    if (!existingSubmission) {
+      return;
+    }
+
+    setSelectedDates(existingSubmission.dates);
+    showStatus("Loaded your previous RSVP picks.");
   };
 
-  const submitAvailability = (event) => {
-    event.preventDefault();
-    const trimmedName = nameInput.trim();
-
-    if (!trimmedName) {
-      setError("Please add your name before saving availability.");
+  const handleClearPrevious = () => {
+    if (!existingSubmission) {
       return;
     }
 
-    if (selectedDates.length === 0) {
-      setError("Select at least one date that works for you.");
+    if (!DB_URL) {
+      setErrorMessage("Missing REACT_APP_FIREBASE_DB_URL in .env.");
       return;
     }
 
-    const cleanedDates = [...new Set(selectedDates)].sort();
-    const key = nameToKey(trimmedName);
     setIsSaving(true);
+    setErrorMessage("");
 
-    fetch(`${DB_URL}/availability/${key}.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: trimmedName, dates: cleanedDates }),
+    fetch(`${DB_URL}/availability/${nameToKey(existingSubmission.name)}.json`, {
+      method: "DELETE",
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Save failed");
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Clear failed");
+        }
+
         setSelectedDates([]);
-        setError("");
-        setActiveDate(cleanedDates[0]);
-        getAvailability();
+        showStatus("Your previous RSVP picks were cleared.");
+        loadAvailability();
       })
       .catch((requestError) => {
         console.error(requestError);
-        setError("Could not save availability right now.");
+        setErrorMessage("Could not clear your RSVP right now.");
       })
       .finally(() => {
         setIsSaving(false);
       });
   };
 
-  const clearSelections = () => {
-    setSelectedDates([]);
-    setError("");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trimmedName = name.trim();
+
+    if (!trimmedName || selectedDates.length === 0) {
+      return;
+    }
+
+    if (!DB_URL) {
+      setErrorMessage("Missing REACT_APP_FIREBASE_DB_URL in .env.");
+      return;
+    }
+
+    setIsSaving(true);
+    setErrorMessage("");
+
+    fetch(`${DB_URL}/availability/${nameToKey(trimmedName)}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: existingSubmission?.name || trimmedName,
+        dates: [...new Set(selectedDates)],
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Save failed");
+        }
+
+        const submittedAudio = new Audio(submitted);
+        submittedAudio.play().catch(() => {
+          // Ignore blocked autoplay; user interaction already happened in most cases.
+        });
+
+        setName("");
+        setSelectedDates([]);
+        showStatus("Your vote has been uploaded at 56k speed.");
+        loadAvailability();
+      })
+      .catch((requestError) => {
+        console.error(requestError);
+        setErrorMessage("Could not save RSVP right now.");
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
   };
 
   return (
-    <div className="rsvp-wrapper">
-      <section className="rsvp-container schedule-container">
-        <h2 className="schedule-title">WHEN R U FREE</h2>
-        <p className="schedule-subtitle">
-          Add your name n pick some days that work for you.
-        </p>
+    <section
+      className={`rsvp-shell ${className}`.trim()}
+      aria-label="RSVP voting board"
+    >
+      <div className="rsvp-window">
+        <header className="rsvp-titlebar">
+          <span className="rsvp-titlebar__dot" aria-hidden="true" />
+          <h2 className="rsvp-titlebar__text">RSVP POLL</h2>
+        </header>
 
-        <form className="schedule-form" onSubmit={submitAvailability}>
+        <div className="rsvp-marquee" aria-hidden="true">
+          <span>* ENTER YOUR NAME AND PICK ALL DATES YOU CAN MAKE *</span>
+        </div>
+
+        <form className="rsvp-form" onSubmit={handleSubmit}>
+          <label className="rsvp-field" htmlFor="rsvp-name">
+            Your Name
+          </label>
           <input
-            className="name-input"
-            placeholder="Your name"
-            value={nameInput}
-            onChange={(event) => {
-              setError("");
-              setNameInput(event.target.value);
-            }}
+            id="rsvp-name"
+            className="rsvp-input"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            maxLength={40}
           />
+
+          {existingSubmission ? (
+            <div className="rsvp-returning-tools">
+              <p className="rsvp-returning-note">
+                Previous RSVP found for {existingSubmission.name}.
+              </p>
+              <div className="rsvp-returning-actions">
+                <button
+                  type="button"
+                  className="rsvp-small-btn"
+                  onClick={handleLoadPrevious}
+                  disabled={isSaving}
+                >
+                  Load My Picks
+                </button>
+                <button
+                  type="button"
+                  className="rsvp-small-btn rsvp-small-btn--danger"
+                  onClick={handleClearPrevious}
+                  disabled={isSaving}
+                >
+                  Clear My Picks
+                </button>
+              </div>
+            </div>
+          ) : null}
+
+          <p className="rsvp-instruction">Select every day you can attend:</p>
+          <div
+            className="rsvp-options"
+            role="group"
+            aria-label="Available dates"
+          >
+            {POLL_DATES.map((date) => (
+              <label
+                key={date}
+                className="rsvp-option"
+                htmlFor={`date-${date}`}
+              >
+                <input
+                  id={`date-${date}`}
+                  type="checkbox"
+                  checked={selectedDates.includes(date)}
+                  onChange={(event) =>
+                    handleDateToggle(date, event.target.checked)
+                  }
+                />
+                <span>{date}</span>
+              </label>
+            ))}
+          </div>
+
           <button
-            className="save-availability-btn"
             type="submit"
-            disabled={isSaving}
+            className="rsvp-submit"
+            disabled={!name.trim() || selectedDates.length === 0 || isSaving}
           >
-            {isSaving ? "Saving..." : "Save availability"}
+            {isSaving ? "SAVING..." : "SUBMIT RSVP"}
           </button>
-          <button
-            className="clear-selection-btn"
-            type="button"
-            onClick={clearSelections}
-          >
-            Clear picked dates
-          </button>
+
+          {showSuccess ? (
+            <p className="rsvp-success" role="status">
+              {statusMessage}
+            </p>
+          ) : null}
+
+          {errorMessage ? <p className="rsvp-error">{errorMessage}</p> : null}
         </form>
 
-        {error && <p className="error-txt">{error}</p>}
-
-        <div className="calendar-controls">
-          <button
-            className="month-nav"
-            type="button"
-            onClick={() =>
-              setMonthCursor(
-                (current) =>
-                  new Date(current.getFullYear(), current.getMonth() - 1, 1),
-              )
-            }
-          >
-            Previous
-          </button>
-          <h3 className="month-label">{monthLabel(monthCursor)}</h3>
-          <button
-            className="month-nav"
-            type="button"
-            onClick={() =>
-              setMonthCursor(
-                (current) =>
-                  new Date(current.getFullYear(), current.getMonth() + 1, 1),
-              )
-            }
-          >
-            Next
-          </button>
+        <div className="rsvp-divider" aria-hidden="true">
+          <img src={scootin} alt="" className="rsvp-divider__gif" />
         </div>
 
-        <div
-          className="calendar-grid"
-          role="grid"
-          aria-label="Availability calendar"
-        >
-          {WEEKDAY_LABELS.map((label) => (
-            <div key={label} className="weekday-label">
-              {label}
-            </div>
-          ))}
-          {monthDays.map((date, index) => {
-            if (!date) {
+        <section className="vote-board" aria-live="polite">
+          <div className="vote-board__header">
+            <h3>Vote Tally</h3>
+            <p>{totalVotes} total vote(s)</p>
+          </div>
+
+          <div className="vote-grid">
+            {POLL_DATES.map((date) => {
+              const voters = dateVotes[date];
               return (
-                <div key={`empty-${index}`} className="calendar-cell empty" />
+                <article key={date} className="vote-card">
+                  <div className="vote-card__top">
+                    <strong>{date}</strong>
+                    <span className="vote-badge">{voters.length} vote(s)</span>
+                  </div>
+
+                  <details className="vote-voters" onToggle={handleTallyToggle}>
+                    <summary>
+                      {voters.length > 0
+                        ? `View voters (${voters.length})`
+                        : "No voters yet"}
+                    </summary>
+                    {voters.length > 0 ? (
+                      <ul>
+                        {voters.map((voter, index) => (
+                          <li key={`${date}-${voter}-${index}`}>{voter}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </details>
+                </article>
               );
-            }
-
-            const dateKey = formatDateKey(date);
-            const selectedByCurrentUser = selectedDates.includes(dateKey);
-            const availablePeople = dateToPeople[dateKey] || [];
-
-            return (
-              <button
-                key={dateKey}
-                type="button"
-                className={`calendar-cell day-cell ${
-                  selectedByCurrentUser ? "picked" : ""
-                }`}
-                style={{
-                  background: availablePeople.length
-                    ? `rgba(57, 255, 20, ${availablePeople.length * 0.1 + 0.15})`
-                    : `transparent`,
-                }}
-                onClick={() => toggleDateSelection(dateKey)}
-              >
-                <span className="day-number">{date.getDate()}</span>
-                <span
-                  className="availability-count"
-                  style={{
-                    color: availablePeople.length ? "white" : undefined,
-                    textShadow: availablePeople.length ? undefined : "none",
-                  }}
-                >
-                  {availablePeople.length} available
-                </span>
-                {availablePeople.length > 0 && (
-                  <span className="availability-preview">
-                    {availablePeople.slice(0, 2).join(", ")}
-                    {availablePeople.length > 2
-                      ? ` +${availablePeople.length - 2}`
-                      : ""}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="date-detail-panel">
-          {activeDate ? (
-            <>
-              <h4>{displayDateLabel(activeDate)}</h4>
-              <p>{activeDatePeople.length} people available</p>
-              {activeDatePeople.length ? (
-                <ul>
-                  {activeDatePeople.map((person) => (
-                    <li key={`${activeDate}-${person}`}>{person}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No one has selected this date yet.</p>
-              )}
-            </>
-          ) : (
-            <p>Select a day to view everyone available on that date.</p>
-          )}
-        </div>
-      </section>
-    </div>
+            })}
+          </div>
+        </section>
+      </div>
+    </section>
   );
 };
 

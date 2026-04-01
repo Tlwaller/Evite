@@ -7,15 +7,20 @@ import yertOld from "./assets/old.png";
 import deadMe from "./assets/dead.png";
 import barrelExplode from "./assets/barrel explode.wav";
 import deathSound from "./assets/death.mp3";
+import doorOpenSound from "./assets/door-open.mp3";
 import { useEffect, useRef, useState } from "react";
+
+const RSVP_COVER_DURATION_MS = 760;
 
 const App = () => {
   const [me, setMe] = useState(lilMe);
   const [showBlowUp, setShowBlowUp] = useState(false);
   const [driveAcross, setDriveAcross] = useState(false);
   const [showRSVP, setShowRSVP] = useState(false);
+  const [isRSVPCoveringHero, setIsRSVPCoveringHero] = useState(false);
   const [flashSequence, setFlashSequence] = useState(0);
   const initialMeRef = useRef(me);
+  const rsvpCoverTimerRef = useRef(null);
 
   useEffect(() => {
     if (me === initialMeRef.current) {
@@ -46,6 +51,34 @@ const App = () => {
     deathAudio.play();
   };
 
+  const handleYes = () => {
+    const doorAudio = new Audio(doorOpenSound);
+
+    doorAudio.play().catch(() => {
+      // Ignore playback failures due to browser autoplay policy.
+    });
+
+    setIsRSVPCoveringHero(true);
+
+    if (rsvpCoverTimerRef.current) {
+      window.clearTimeout(rsvpCoverTimerRef.current);
+    }
+
+    rsvpCoverTimerRef.current = window.setTimeout(() => {
+      setShowRSVP(true);
+      setIsRSVPCoveringHero(false);
+      rsvpCoverTimerRef.current = null;
+    }, RSVP_COVER_DURATION_MS);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (rsvpCoverTimerRef.current) {
+        window.clearTimeout(rsvpCoverTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="App" id="App">
       {flashSequence > 0 ? (
@@ -55,16 +88,26 @@ const App = () => {
         handleCrash={handleCrash}
         handleCurtainLift={handleCurtainLift}
       />
-      {!showRSVP ? (
+      {!showRSVP || isRSVPCoveringHero ? (
         <Hero
           me={me}
           showBlowUp={showBlowUp}
           driveAcross={driveAcross}
-          onYes={() => setShowRSVP(true)}
+          onYes={handleYes}
           onNo={handleNo}
         />
       ) : null}
-      {showRSVP ? <RSVPForm /> : null}
+      {showRSVP || isRSVPCoveringHero ? (
+        <div
+          className={`app-rsvp-layer ${
+            isRSVPCoveringHero ? "is-covering-hero" : ""
+          }`}
+        >
+          <RSVPForm
+            className={isRSVPCoveringHero ? "rsvp-shell--covering" : ""}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

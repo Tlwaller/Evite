@@ -28,6 +28,42 @@ body::before {
 
 .App {
   position: relative;
+  /* overflow: hidden; */
+}
+
+.app-rsvp-layer {
+  position: relative;
+  z-index: 4;
+}
+
+.app-rsvp-layer.is-covering-hero {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.app-rsvp-layer.is-covering-hero .rsvp-shell {
+  margin: 0;
+  width: min(980px, 94vw);
+  transform: translateY(100vh);
+  animation: app-rsvp-cover-hero 760ms cubic-bezier(0.2, 0.7, 0.15, 1) forwards;
+}
+
+.app-rsvp-layer.is-covering-hero .rsvp-shell.rsvp-shell--covering {
+  box-shadow: 8px 10px 0 #111111;
+}
+
+@keyframes app-rsvp-cover-hero {
+  0% {
+    transform: translateY(100vh);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
 }
 
 .app-flash-overlay {

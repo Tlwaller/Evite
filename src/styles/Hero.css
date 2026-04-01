@@ -176,9 +176,41 @@
   color: yellow;
 }
 
+.me-frame {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+}
+
 .me {
   position: relative;
   z-index: 1;
+  display: block;
+}
+
+.me-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 0, 0, 0.38);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.me-frame.is-flashing .me-flash {
+  animation: meRedFlash 0.52s ease-out 2;
+}
+
+@keyframes meRedFlash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .race-modal {
